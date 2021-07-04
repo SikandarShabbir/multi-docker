@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t pozative/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run pozative/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t pozative/multi-client ./client
+  - docker build -t pozative/multi-nginx ./nginx
+  - docker build -t pozative/multi-server ./serve
+  - docker build -t pozative/multi-worker ./worker
+
+  #Login to docker cli
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push pozative/multi-client
+  - docker push pozative/multi-nginx
+  - docker push pozative/multi-server
+  - docker push pozative/multi-worker
