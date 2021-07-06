@@ -11,7 +11,7 @@ script:
 after_success:
   - docker build -t pozative/multi-client ./client
   - docker build -t pozative/multi-nginx ./nginx
-  - docker build -t pozative/multi-server ./serve
+  - docker build -t pozative/multi-server ./server
   - docker build -t pozative/multi-worker ./worker
 
   #Login to docker cli
