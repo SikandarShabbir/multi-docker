@@ -29,9 +29,7 @@ services:
             - PGHOST=postgres
             - POSTGRES_DB=postgres
             - POSTGRES_PASSWORD=postgres
-#           - POSTGRES_PASSWORD=password
-            - PGPORT=5432
-#            - POSTGRES_HOST_AUTH_METHOD=trust                
+            - PGPORT=5432              
     client:
         build: 
             dockerfile: Dockerfile.dev
@@ -39,7 +37,10 @@ services:
         volumes: 
             - /app/node_modules
             - ./client:/app
-    worker:        
+    worker:
+        environment: 
+        - REDIS_HOST=redis
+        - REDIS_PORT=6379        
         build: 
             dockerfile: Dockerfile.dev
             context: ./worker        
